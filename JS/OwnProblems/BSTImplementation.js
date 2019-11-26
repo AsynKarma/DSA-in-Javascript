@@ -113,14 +113,91 @@ class BinarySearchTree {
             this.preOrderTraversal(node.right);
         }
     }
+
 }
 
-const treeData = [1, 2, 3, 2, 5, 2, 5, 6, 2, 5, 6, 78, 6, 8, 6, 4, 2, 33, 66, 45, 77, 44, 33, 5, 88, 44, 3, 22, 77]
-var BST = new BinarySearchTree()
-treeData.forEach(item => {
-    BST.insert(item)
-});
-var inOrderTraversal = [];
-BST.inOrderTraversal(BST.getRootNode(), inOrderTraversal)
-console.log(inOrderTraversal)
-// BST.preOrderTraversal(BST.getRootNode())
+// const treeData = [1, 2, 3, 2, 5, 2, 5, 6, 2, 5, 6, 78, 6, 8, 6, 4, 2, 33, 66, 45, 77, 44, 33, 5, 88, 44, 3, 22, 77]
+// var BST = new BinarySearchTree()
+// treeData.forEach(item => {
+//     BST.insert(item)
+// });
+// var inOrderTraversal = [];
+// BST.inOrderTraversal(BST.getRootNode(), inOrderTraversal)
+// console.log(inOrderTraversal)
+
+var tree = new Node(60);
+tree.left = new Node(72)
+tree.left.left = new Node(12)
+tree.left.right = new Node(24)
+tree.right = new Node(12)
+tree.right.left = new Node(73)
+tree.right.right = new Node(76)
+
+removeLeftNodeFromTree = (someTree, node) => {
+    if (node.left === null && node.right === null) {
+        someTree.left = null
+    } else if (node.left === null) {
+        someTree.left = node.right
+    } else {
+        someTree.left = node.left
+    }
+}
+
+removeRightNodeFromTree = (someTree, node) => {
+    if (node.left === null && node.right === null) {
+        if (node.left === null && node.right === null) {
+            someTree.right = null
+        } else if (node.left === null) {
+            someTree.right = node.right
+        } else {
+            someTree.right = node.left
+        }
+    }
+}
+
+findMinNodesToBeRemovedToMakeATreeBST = (someTree) => {
+    var minNodes = 0
+    //Left traverse
+    if (someTree.left === null && someTree.right === null) {
+        return minNodes
+    } else if (someTree.left === null) {
+        // traverse right
+        if (someTree.data < someTree.righ.data) {
+            minNodes = minNodes + findMinNodesToBeRemovedToMakeATreeBST(someTree.right);
+        } else {
+            minNodes++;
+            removeRightNodeFromTree(someTree, someTree.right);
+            minNodes = minNodes + findMinNodesToBeRemovedToMakeATreeBST(someTree);
+        }
+    } else if (someTree.right === null) {
+        // .traverse left
+        if (someTree.left && someTree.data > someTree.left.data) {
+            minNodes = minNodes + findMinNodesToBeRemovedToMakeATreeBST(someTree.left);
+        } else {
+            minNodes++;
+            removeLeftNodeFromTree(someTree, someTree.left);
+            minNodes = minNodes + findMinNodesToBeRemovedToMakeATreeBST(someTree);
+        }
+    } else {
+        if (someTree.left && someTree.data > someTree.left.data) {
+            minNodes = minNodes + findMinNodesToBeRemovedToMakeATreeBST(someTree.left);
+        } else {
+            minNodes++;
+            removeLeftNodeFromTree(someTree, someTree.left);
+            minNodes = minNodes + findMinNodesToBeRemovedToMakeATreeBST(someTree);
+        }
+
+        //Right traverse
+        if (someTree.data < someTree.right.data) {
+            findMinNodesToBeRemovedToMakeATreeBST(someTree.right);
+        } else {
+            minNodes++;
+            removeRightNodeFromTree(someTree, someTree.right);
+            return findMinNodesToBeRemovedToMakeATreeBST(someTree);
+        }
+    }
+
+    return minNodes
+}
+
+console.log(findMinNodesToBeRemovedToMakeATreeBST(tree));
