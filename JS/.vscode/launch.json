@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch Program",
             // "program": "${workspaceFolder}/Leetcode/buddy-string.js"
-            "program": "${workspaceFolder}/OwnProblems/BSTImplementation.js"
+            "program": "${workspaceFolder}/JS/OwnProblems/BSTImplementation.js"
         }
     ]
 }
