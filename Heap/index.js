@@ -3,16 +3,16 @@ class Heap {
      * 
      * @param {*} A Every array is considered a Heap
      */
-    constructor (A) {
+    constructor(A) {
         this.heap = A,
-        this.heapSize = A.length
+            this.heapSize = A.length
     }
 
     /**
      * Call this function only if you are sure the left subtree and right subtree of the index you sent are max Heaps
      * @param {number} nodeIndex 
      */
-    maxHeapify (nodeIndex) {
+    maxHeapify(nodeIndex) {
         let leftNodeIndex = 2 * nodeIndex + 1
         let rightNodeIndex = leftNodeIndex + 1
         if (!this.heap[rightNodeIndex] && !this.heap[leftNodeIndex]) return
@@ -22,7 +22,7 @@ class Heap {
         } else {
             maxValueNode = leftNodeIndex
         }
-        if (this.heap[nodeIndex]  < this.heap[maxValueNode]) {
+        if (this.heap[nodeIndex] < this.heap[maxValueNode]) {
             // Swap elements at nodeIndex and leftNode Index
             let tempValue = this.heap[nodeIndex]
             this.heap[nodeIndex] = this.heap[maxValueNode]
@@ -35,19 +35,19 @@ class Heap {
         }
     }
 
-    buildMaxHeap () {
+    buildMaxHeap() {
         for (var i = Math.floor(this.heapSize / 2 - 1); i >= 0; i--) {
             this.maxHeapify(i)
         }
     }
 
-    insertElementInMaxHeap (newElement) {
+    insertElementInMaxHeap(newElement) {
         this.heap.push(newElement)
         this.heapSize++
         this.buildMaxHeap()
     }
 
-    deleteElementInMaxHeap () {
+    deleteElementInMaxHeap() {
         let max = this.heap[0]
         this.heap[0] = this.heap[this.heapSize - 1]
         this.heap.pop()
@@ -56,7 +56,7 @@ class Heap {
         return max
     }
 
-    sort () {   
+    sort() {
         let sortedArr = []
         var i = this.heap.length - 1
         while (i >= 0) {
@@ -66,7 +66,7 @@ class Heap {
         return sortedArr
     }
 
-    minHeapify (nodeIndex) {
+    minHeapify(nodeIndex) {
         let leftNodeIndex = 2 * nodeIndex + 1
         let rightNodeIndex = leftNodeIndex + 1
         if (!this.heap[rightNodeIndex] && !this.heap[leftNodeIndex]) return
@@ -76,7 +76,7 @@ class Heap {
         } else {
             minValueNode = leftNodeIndex
         }
-        if (this.heap[nodeIndex]  > this.heap[minValueNode]) {
+        if (this.heap[nodeIndex] > this.heap[minValueNode]) {
             // Swap elements at nodeIndex and leftNode Index
             let tempValue = this.heap[nodeIndex]
             this.heap[nodeIndex] = this.heap[minValueNode]
@@ -88,20 +88,20 @@ class Heap {
             return
         }
     }
-    
-    buildMinHeap () {
+
+    buildMinHeap() {
         for (var i = Math.floor(this.heapSize / 2 - 1); i >= 0; i--) {
             this.minHeapify(i)
         }
     }
 
-    insertElementInMinHeap (newElement) {
+    insertElementInMinHeap(newElement) {
         this.heap.push(newElement)
         this.heapSize++
         this.buildMinHeap()
     }
 
-    deleteElementInMinHeap () {
+    deleteElementInMinHeap() {
         let max = this.heap[0]
         this.heap[0] = this.heap[this.heapSize - 1]
         this.heap.pop()
@@ -111,9 +111,9 @@ class Heap {
     }
 }
 
-module.exports = Heap 
+module.exports = Heap
 
-const heap = new Heap([1,2,3,4,5])
+const heap = new Heap([1, 2, 3, 4, 5])
 heap.buildMaxHeap();
 heap.insertElementInMaxHeap(6)
 heap.insertElementInMaxHeap(2)

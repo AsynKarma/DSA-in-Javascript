@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* Add your CSS here */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(17, 17, 17);
+        }
+
+        section,
+        .handle,
+        .clock-face {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        section {
+            height: 90vh;
+            width: 90vw;
+            background-color: rgb(32, 32, 32);
+            border-radius: 10px;
+        }
+
+        .clock-face {
+            width: 250px;
+            height: 250px;
+            border: 10px solid #fff;
+            border-radius: 50%;
+        }
+
+        .handle {
+            width: 100px;
+            height: 5px;
+            background-color: red;
+            border-radius: 50px;
+            transform-origin: left;
+            transform: rotate(-90deg);
+            transition: transform 0.3s cubic-bezier(0.88, -0.01, 0.36, 1.84);
+        }
+
+        .hourhandle {
+            width: 70px;
+            background-color: rgb(190, 155, 0);
+            transform: rotate(180deg);
+        }
+
+        .minuthandle {
+            background-color: rgb(190, 155, 0);
+        }
+
+        .creator {
+            position: inherit;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+        }
+
+        .creator a {
+            color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Add your layout here-->
+    <section>
+        <div class="clock-face"></div>
+        <div class="handle minuthandle"></div>
+        <div class="handle hourhandle"></div>
+        <div class="handle secondhandle"></div>
+    </section>
+    <script>
+        function setTime() {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const hours = now.getHours();
+            const minuts = now.getMinutes();
+            const secondDeg = (seconds / 60) * 360 - 90;
+            const hourDeg = (hours / 12) * 360 - 90;
+            const minutDeg = (minuts / 60) * 360 - 90;
+            const secondHandle = document.querySelector(".secondhandle");
+            const hourHandle = document.querySelector(".hourhandle");
+            const minutHandle = document.querySelector(".minuthandle");
+            secondHandle.style.transform = `rotate(${secondDeg}deg)`;
+            hourHandle.style.transform = `rotate(${hourDeg}deg)`;
+            minutHandle.style.transform = `rotate(${minutDeg}deg)`;
+            if (seconds === 0) {
+                secondHandle.style.transition = "transform";
+            } else {
+                secondHandle.style.transition =
+                    "transform 0.3s cubic-bezier(0.88, -0.01, 0.36, 1.84)";
+            }
+        }
+        setInterval(setTime, 1000);
+    </script>
+</body>
+
+</html>

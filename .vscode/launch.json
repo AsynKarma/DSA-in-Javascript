@@ -8,8 +8,8 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            // "program": "${workspaceFolder}/Leetcode/buddy-string.js"
-            "program": "${workspaceFolder}/JS/OwnProblems/BSTImplementation.js"
+            "outputCapture": "std",
+            "program": "${file}"
         }
     ]
 }

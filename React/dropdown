@@ -1,0 +1,74 @@
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import classnames from 'classnames';
+// you should import `lodash` as a whole module
+import lodash from 'lodash';
+import axios from 'axios';
+
+const ITEMS_API_URL = 'https://example.com/api/items';
+const DEBOUNCE_DELAY = 500;
+
+// the exported component can be either a function or a class
+
+export default function Autocomplete() {
+    const [inputText, setInputText] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorLoadig, setErrorLoading] = useState('');
+    const inputRef = useRef();
+
+    useEffect(() => {
+        if (inputText.length === 0) {
+            setSuggestions([])
+        }
+        else {
+            console.log(inputText)
+            setIsLoading(true);
+            fetch(`${ITEMS_API_URL}?q=${inputText}`)
+                .then(response => response.json())
+                .then(data => {
+                    setSuggestions(data);
+                })
+                .catch(e => setErrorLoading(e.message))
+                .finally(() => {
+                    setIsLoading(false)
+                });
+        }
+    }, [inputText]);
+
+    const handleOnChangeInput = (e) => {
+        setInputText(inputRef.current.value)
+    }
+
+    const debouncedChangeHandler = useCallback(
+        lodash.debounce(handleOnChangeInput, DEBOUNCE_DELAY)
+        , []);
+
+    const handleOnSelect = (s) => () => {
+        alert(s)
+    }
+
+    const renderSuggestions = () => {
+        return (
+            <>
+            {
+                suggestions.map(s => {
+                    return (
+                        <a key= { s } className = "list-item" onClick = { handleOnSelect(s) } > { s } < /a>
+          )
+            })
+    }
+    </>
+    )
+}
+
+return (
+    <div className= "wrapper" >
+    <div className="control" >
+        <input ref={ inputRef } type = "text" className = {`input ${isLoading ? 'is-loading' : ''}`} onChange = { debouncedChangeHandler } />
+            </div>
+            < div className = "list is-hoverable" >
+                { renderSuggestions() }
+                < /div>
+                < /div>
+  );
+}
